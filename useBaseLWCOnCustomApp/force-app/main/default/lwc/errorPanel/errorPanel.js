@@ -9,7 +9,7 @@ export default class ErrorPanel extends LightningElement {
 
     /** Single or array of LDS errors */
     @api errors;
-
+ 
     get errorMessages() {
         return reduceErrors(this.errors);
     }
@@ -18,3 +18,4 @@ export default class ErrorPanel extends LightningElement {
         this.viewDetails = event.target.checked;
     }
 }
+ 

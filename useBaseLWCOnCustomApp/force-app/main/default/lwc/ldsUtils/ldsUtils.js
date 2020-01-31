@@ -8,7 +8,7 @@ export function reduceErrors(errors) {
         errors = [errors];
     }
 
-    return (
+    return ( 
         errors
             // Remove null/undefined items
             .filter(error => !!error)

@@ -3,14 +3,20 @@
         "experimentalDecorators": true,
         "baseUrl": ".",
         "paths": {
-            "c/contactQuickAdd": [
-                "contactQuickAdd/contactQuickAdd.js"
+            "c/editContactRow": [
+                "editContactRow/editContactRow.js"
             ],
             "c/errorPanel": [
                 "errorPanel/errorPanel.js"
             ],
             "c/ldsUtils": [
                 "ldsUtils/ldsUtils.js"
+            ],
+            "c/modal": [
+                "modal/modal.js"
+            ],
+            "c/relatedContacts": [
+                "relatedContacts/relatedContacts.js"
             ]
         }
     },

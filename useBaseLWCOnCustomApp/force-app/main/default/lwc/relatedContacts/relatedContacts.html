@@ -1,0 +1,72 @@
+<template>
+    <!-- handles event to show/hide spinner -->
+        <lightning-card title="Related Contacts Quick Edit" icon-name="custom:custom14">
+            <div class="slds-m-around_medium">
+                <!-- First Row of table containting labels only -->
+                <lightning-layout horizontal-align="space">
+                    <lightning-layout-item size="2"  padding="around-small">
+                        First Name
+                    </lightning-layout-item>
+                    <lightning-layout-item size="2"  padding="around-small">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            Last Name
+                    </lightning-layout-item> 
+                    <lightning-layout-item size="2"  padding="around-small">
+                        Pre-Tax Income
+                    </lightning-layout-item>
+                    <lightning-layout-item size="2"  padding="around-small">
+                        Paid Tax
+                    </lightning-layout-item>
+                    <lightning-layout-item size="2"  padding="around-small">
+                        Total Income
+                    </lightning-layout-item>
+                    <lightning-layout-item size="2"  padding="around-small">
+                        Action
+                    </lightning-layout-item>
+                </lightning-layout>
+                <!-- End first row of table containting labels only -->
+                <!-- Iterating through rows of contacts -->
+                <template if:true={contacts}>
+                    <template for:each={contacts} for:item="contactId" for:index="index">
+                        <p key={contactId}>
+                            <c-edit-contact-row index={index} onloading={handleLoading} 
+                                                ondoneloading={handleDoneLoading}  
+                                                ondelete={handleDeleteRow}
+                                                onsuccess={handleContactUpsert}
+                                                contact-id={contactId} account-id={recordId} >
+                            </c-edit-contact-row>
+                        </p>
+                    </template>
+                </template>
+                <!-- End iterating through rows of contacts -->
+                <lightning-button label="Add New Contact" onclick={handleAddNewContact} ></lightning-button>
+                <!-- Error handler -->
+                <template if:true={error}>  
+                    <c-error-panel errors={error} ></c-error-panel>
+                </template>
+                <!-- End error handler -->
+            </div> 
+            <!-- Loading spinner -->
+            <template if:true={isLoading}>
+                <lightning-spinner size="small" variant="brand"></lightning-spinner>
+            </template>
+            <!-- Modal that will verify if record should be deleted-->
+            <c-modal header={deleteModalHeader}>
+                {deleteModalContent}
+                <div slot="footer">
+                    <lightning-button
+                        label="Cancel"
+                        variant="neutral"
+                        onclick={handleCancelDelete}
+                        class="slds-p-around_xx-small"
+                    ></lightning-button>
+                    <lightning-button
+                        label="Yes"
+                        variant="brand"
+                        onclick={handleYesDelete}
+                        class="slds-p-around_xx-small"
+                    ></lightning-button>
+                </div>
+            </c-modal>
+        </lightning-card>
+    </template>  
