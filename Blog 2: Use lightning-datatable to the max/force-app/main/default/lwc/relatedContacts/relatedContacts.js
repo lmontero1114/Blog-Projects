@@ -4,44 +4,15 @@ import upsertContacts from '@salesforce/apex/RelatedContactsDataService.upsertCo
 import { deleteRecord } from 'lightning/uiRecordApi';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 
-const actions = [
-    { label: 'Delete', name: 'delete' }
-];
-
 const columns = [
     { label: 'First Name', fieldName: 'FirstName', editable: true },
     { label: 'Last Name', fieldName: 'LastName', editable: true },
     { label: 'Tax Paid', fieldName: 'Tax_Paid__c', editable: true, type : 'currency'},
     { label: 'Pre Tax Income', fieldName: 'Pre_Tax_Income__c', editable: true, type : 'currency'},
-    { label: 'Total Income' ,fieldName:'TotalIncome', editable: true, type: 'currency'},
-    { type: 'action',
-      typeAttributes: { rowActions: actions },
+    { label: 'Total Income' ,fieldName:'TotalIncome', type: 'currency'},
+    { type: 'button-icon',
+      typeAttributes: { iconName: 'utility:delete',name:'delete' },
     },
-];
-const columnsdemo = [
-    // Your column data here
-    { label: 'First Name', fieldName: 'FirstName', editable: true },
-    { label: 'Last Name', fieldName: 'LastName', editable: true },
-    { label: 'Tax Paid', fieldName: 'Tax_Paid__c', editable: true, type : 'currency'},
-    { label: 'Pre Tax Income', fieldName: 'Pre_Tax_Income__c', editable: true, type : 'currency'},
-    { label: 'total Income input', fieldName: 'totalIncomeInput', type : 'currency'},
-    {
-        label: '',
-        type: 'displayTotalIncome',
-        fieldName: 'totalIncome',
-        fixedWidth: 70,
-        typeAttributes: {
-            taxPaid: { fieldName: 'taxPaid' },
-            preTax: { fieldName: 'preTax' },
-        },
-    },
-    {
-        label: '',
-        type: 'deleteRowButton',
-        fieldName: 'deleteButton',
-        fixedWidth: 70
-    },
-
 ];
 
 const TEMP_KEYWORD = 'temp';
@@ -57,7 +28,6 @@ export default class RelatedContacts extends LightningElement {
     //Start properties tied to datatable component 
     @track contacts;    //rows in the table
     @track columns = columns;   //columns for table
-    @track columnsdemo = columnsdemo;
     @track tableError;  //Contains the error is specific to the table for validation purposes
     @track isLoading = true;    //determines if table will show loading icon
     //End properties tied to datatable component
@@ -88,7 +58,7 @@ export default class RelatedContacts extends LightningElement {
             .then(() => {
                 //to clear out the save/cancel
                 this.refreshData();
-                this.template.querySelector('c-my-datatable').draftValues = null;
+                this.template.querySelector('lightning-datatable').draftValues = null;
                 this.showToast(true,true);//arguments (isSuccess, isSave)
 
             })
@@ -109,12 +79,12 @@ export default class RelatedContacts extends LightningElement {
         //if i did not set the Id, when inline editing one row without Id, it would also modify the 
         //other row without the id
         this.contacts.push({"Id":TEMP_KEYWORD+this.temporaryId});
-        this.template.querySelector('c-my-datatable').data = this.contacts;
+        this.template.querySelector('lightning-datatable').data = this.contacts;
     }
 
-    handleRowDelete(event){
-        this.rowToDelete = event.detail.row;  
+    handleRowAction(event){
         //since there is ony one row action, we dont need to check which action was clicked     
+        this.rowToDelete = event.detail.row;  
         this.handleShowModal();
     }
     

@@ -2,18 +2,19 @@
 
     <lightning-card>
         <template if:true={contacts}>
-            <c-my-datatable
+            <!-- <c-my-datatable
                 key-field="Id"
                 data={contacts}
-                columns={columnsdemo}
+                columns={columns}
                 ondeleterow={handleRowDelete}
                 onsave={handleSave}
                 oncellchange={handleCellChange}
                 errors={tableError}
                 is-loading={isLoading}
+                onrowaction={handleRowDelete}
                 hide-checkbox-column>
-            </c-my-datatable>
-            <!-- <lightning-datatable
+            </c-my-datatable> -->
+            <lightning-datatable
             key-field="Id"
             data={contacts}
             columns={columns}
@@ -22,8 +23,9 @@
             onrowaction={handleRowAction}
             hide-checkbox-column="true"
             errors={tableError}
+            is-loading={isLoading}
             >    
-            </lightning-datatable> -->
+            </lightning-datatable>
         </template>
         <template if:true={error}>
             <c-error-panel errors={error} ></c-error-panel>
