@@ -2,6 +2,12 @@ import { LightningElement, api, track } from 'lwc';
 import getContacts from '@salesforce/apex/RelatedContactsDataService.getRelatedContacts';
 import upsertContacts from '@salesforce/apex/RelatedContactsDataService.upsertContacts';
 import { deleteRecord } from 'lightning/uiRecordApi';
+import {findRowIndexById,
+        getFieldValueFromArray,
+        validateNullValue,
+        validateFieldsLength,
+        modifyForInsert
+        } from './relatedContactsUtil.js'; 
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 
 const columns = [
@@ -18,9 +24,6 @@ const columns = [
 const TEMP_KEYWORD = 'temp';
 const DELETE_MODAL_HEADER = 'Watch out!';
 const DELETE_MODAL_CONTENT = 'Are you sure you want to delete this Contact?';
-const VALIDATION_ERROR_TITLE = 'Validation Error';
-const VALIDATION_ERROR_MESSAGE = 'Last Name field is required.';
-const FIELDS_TO_VALIDATE = ['LastName'];
 
 export default class RelatedContacts extends LightningElement {
     @api recordId;      //AccountId
@@ -52,7 +55,7 @@ export default class RelatedContacts extends LightningElement {
             return;
         }
 
-        this.modifyForInsert(draftValues);
+        modifyForInsert(draftValues,this.recordId);
 
         upsertContacts({contacts : draftValues})
             .then(() => {
@@ -140,16 +143,6 @@ export default class RelatedContacts extends LightningElement {
         });
     }
 
-    //Function removes the temporary Id before inserting records into DB
-    modifyForInsert(draftValues){
-        draftValues.forEach(contact => {
-            if(contact.Id.includes(TEMP_KEYWORD)){
-                delete contact.Id;
-                contact.AccountId = this.recordId;
-            }
-        });
-    }
-
     //Does validation on form, making sure Last name fiels is not blank
     validate(draftValues){
 
@@ -160,30 +153,17 @@ export default class RelatedContacts extends LightningElement {
         //If we are inserting a record the last name HAS to be in the Draft and NOT NULL
         //If we are updaring a record, if the last name is in the draft, it cannot be null
         draftValues.forEach( row => {
-            isValid = this.validateNullValue(row) && this.validateFieldsLength(row);
+            let requiredValuesAreFilled = validateNullValue(row, this.tableError);
+            let fieldLengthsValid = validateFieldsLength(row,this.tableError);
+            isValid = requiredValuesAreFilled && fieldLengthsValid;
         });
         return isValid;
-    }
-    validateFieldsLength(row){
-        return true;
-    }
-
-    validateNullValue(row){
-        let isValid = true;
-        if((row.Id.includes(TEMP_KEYWORD) && !row.LastName) || (!row.Id.includes(TEMP_KEYWORD) && row.LastName === '') ){
-            this.tableError.rows[row.Id] = {title: VALIDATION_ERROR_TITLE,
-                                            messages: [VALIDATION_ERROR_MESSAGE],
-                                            fieldNames: FIELDS_TO_VALIDATE
-                                            }
-            isValid = false;
-        }
-        return isValid;
-    }
+    } 
 
     //removes row from table
     removeRowFromTable(){
         const { Id } = this.rowToDelete;
-        const index = this.findRowIndexById(Id, this.contacts);
+        const index = findRowIndexById(Id, this.contacts);
         if (index !== -1) {
             if (index !== -1) {
                 this.contacts = this.contacts
@@ -249,7 +229,7 @@ export default class RelatedContacts extends LightningElement {
     //if it is not there, it updates it with the table value
     getFieldValueFromDraftValues(recordId,fieldName, initialTableValue){
         let tableDraftValues = this.template.querySelector('lightning-datatable').draftValues;
-        let fieldValue = this.getFieldValueFromArray(recordId,fieldName, tableDraftValues );
+        let fieldValue = getFieldValueFromArray(recordId,fieldName, tableDraftValues );
         if(fieldValue === undefined){
             fieldValue = initialTableValue;
             if(fieldValue === undefined){
@@ -258,29 +238,5 @@ export default class RelatedContacts extends LightningElement {
         }
         return fieldValue;
     }
-
-    //function that gets the field value from an array of records
-    getFieldValueFromArray(recordId, FieldName, arrayToSearch){
-        let index = this.findRowIndexById(recordId, arrayToSearch);
-        if(index === -1){
-            return undefined;
-        }
-        let row = arrayToSearch[index];
-        return row[FieldName];
-    }
-
-    //function that, given the Id, it finds the row number on an array of records
-    findRowIndexById(Id, arrayToSearch) {
-        let ret = -1;
-        arrayToSearch.some((row, index) => {
-            if (row.Id === Id) {
-                ret = index;
-                return true;
-            }
-            return false;
-        });
-        return ret;
-    }
-
 
 }
