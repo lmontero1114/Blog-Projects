@@ -9,7 +9,7 @@ const columns = [
     { label: 'Last Name', fieldName: 'LastName', editable: true },
     { label: 'Tax Paid', fieldName: 'Tax_Paid__c', editable: true, type : 'currency'},
     { label: 'Pre Tax Income', fieldName: 'Pre_Tax_Income__c', editable: true, type : 'currency'},
-    { label: 'Total Income' ,fieldName:'TotalIncome', type: 'currency'},
+    { label: 'Total Income' ,fieldName:'Total_Income__c', type: 'currency'},
     { type: 'button-icon',
       typeAttributes: { iconName: 'utility:delete',name:'delete' },
     },
@@ -27,13 +27,13 @@ export default class RelatedContacts extends LightningElement {
 
     //Start properties tied to datatable component 
     @track contacts;    //rows in the table
-    @track columns = columns;   //columns for table
-    @track tableError;  //Contains the error is specific to the table for validation purposes
-    @track isLoading = true;    //determines if table will show loading icon
+    columns = columns;   //columns for table
+    tableError;  //Contains the error is specific to the table for validation purposes
+    isLoading = true;    //determines if table will show loading icon
     //End properties tied to datatable component
 
     rowToDelete;        //Contains row value when a row is marked for deletion.
-    @track error;       //Contains error that is specific to the entire page
+    error;       //Contains error that is specific to the entire page
 
     connectedCallback(){
         this.refreshData();
@@ -71,7 +71,8 @@ export default class RelatedContacts extends LightningElement {
     }
 
     handleCellChange(event){
-        this.calculateTotalIncome(event.detail.draftValues);
+        //this.calculateTotalIncome(event.detail.draftValues[0]); //on cell change only returns one item in the array
+        this.updateContactsArrayWithDraftValues(event.detail.draftValues[0]);
     }
 
     handleAddNewRow(){
@@ -159,22 +160,30 @@ export default class RelatedContacts extends LightningElement {
         //If we are inserting a record the last name HAS to be in the Draft and NOT NULL
         //If we are updaring a record, if the last name is in the draft, it cannot be null
         draftValues.forEach( row => {
-
-            if((row.Id.includes(TEMP_KEYWORD) && !row.LastName) || (!row.Id.includes(TEMP_KEYWORD) && row.LastName === '') ){
-                this.tableError.rows[row.Id] = {title: VALIDATION_ERROR_TITLE,
-                                     messages: [VALIDATION_ERROR_MESSAGE],
-                                     fieldNames: FIELDS_TO_VALIDATE
-                                    }
-                isValid = false;
-            }
+            isValid = this.validateNullValue(row) && this.validateFieldsLength(row);
         });
+        return isValid;
+    }
+    validateFieldsLength(row){
+        return true;
+    }
+
+    validateNullValue(row){
+        let isValid = true;
+        if((row.Id.includes(TEMP_KEYWORD) && !row.LastName) || (!row.Id.includes(TEMP_KEYWORD) && row.LastName === '') ){
+            this.tableError.rows[row.Id] = {title: VALIDATION_ERROR_TITLE,
+                                            messages: [VALIDATION_ERROR_MESSAGE],
+                                            fieldNames: FIELDS_TO_VALIDATE
+                                            }
+            isValid = false;
+        }
         return isValid;
     }
 
     //removes row from table
     removeRowFromTable(){
         const { Id } = this.rowToDelete;
-        const index = this.findRowIndexById(Id);
+        const index = this.findRowIndexById(Id, this.contacts);
         if (index !== -1) {
             if (index !== -1) {
                 this.contacts = this.contacts
@@ -182,20 +191,6 @@ export default class RelatedContacts extends LightningElement {
                     .concat(this.contacts.slice(index + 1));
             }   
         }
-    }
-
-    //function that, given the Id, it finds the row number on the table
-    findRowIndexById(Id) {
-        let ret = -1;
-        this.contacts.some((row, index) => {
-            if (row.Id === Id) {
-                ret = index;
-                return true;
-            }
-            return false;
-        });
-
-        return ret;
     }
 
     //Modal functions
@@ -237,21 +232,55 @@ export default class RelatedContacts extends LightningElement {
         }),);
     }
 
-    calculateTotalIncome(draftValues){
-        //i would update the totalincome from this table, but if i wanted to add more columns, it would
-        //get annoying because I would have to update the contacts array with every updated value
-        //since, in order to show the total value in the table, i would have to update the entire array
-        // in order to update the totalIncome field
-        
-        //get record id
-        //get index 
-        //get value changed
-        //get the other value from draft values
-        //if not there, get it from contacts array
-        this.contacts[0].taxPaid = 3;
-        this.contacts[0].FirstName = 'test name';
-        this.contacts[0].totalIncomeInput = 3;
-        // console.log('the draft vals are ' + JSON.stringify(draftValues));
-        // console.log('the contacts arr is ' + JSON.stringify(this.contacts));
+    //Iterate through contacts array to find the edited record, and update the total income field
+    updateContactsArrayWithDraftValues(draftValues){
+        let recordId = draftValues.Id;
+        this.contacts.forEach(row =>{
+            if(row.Id !== recordId){
+                return;
+            }
+            let taxPaid = this.getFieldValueFromDraftValues(row.Id,'Tax_Paid__c', row.Tax_Paid__c);
+            let preTaxIncome = this.getFieldValueFromDraftValues(row.Id,'Pre_Tax_Income__c',row.Pre_Tax_Income__c);
+            row.Total_Income__c = parseFloat(taxPaid === '' ? 0 : taxPaid) + parseFloat(preTaxIncome === '' ? 0 : preTaxIncome);
+        });
     }
+
+    //finds the field value for a specific record. First it searches on the table draft
+    //if it is not there, it updates it with the table value
+    getFieldValueFromDraftValues(recordId,fieldName, initialTableValue){
+        let tableDraftValues = this.template.querySelector('lightning-datatable').draftValues;
+        let fieldValue = this.getFieldValueFromArray(recordId,fieldName, tableDraftValues );
+        if(fieldValue === undefined){
+            fieldValue = initialTableValue;
+            if(fieldValue === undefined){
+                fieldValue = 0;
+            }
+        }
+        return fieldValue;
+    }
+
+    //function that gets the field value from an array of records
+    getFieldValueFromArray(recordId, FieldName, arrayToSearch){
+        let index = this.findRowIndexById(recordId, arrayToSearch);
+        if(index === -1){
+            return undefined;
+        }
+        let row = arrayToSearch[index];
+        return row[FieldName];
+    }
+
+    //function that, given the Id, it finds the row number on an array of records
+    findRowIndexById(Id, arrayToSearch) {
+        let ret = -1;
+        arrayToSearch.some((row, index) => {
+            if (row.Id === Id) {
+                ret = index;
+                return true;
+            }
+            return false;
+        });
+        return ret;
+    }
+
+
 }
