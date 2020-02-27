@@ -101,6 +101,7 @@ export default class RelatedContacts extends LightningElement {
         //this.handleLoading();
         if(this.rowToDelete.Id.includes(TEMP_KEYWORD)){
             this.removeRowFromTable();
+            this.removeRowFromDraft();
         }else{
             this.deleteContactDB();
         }
@@ -114,6 +115,7 @@ export default class RelatedContacts extends LightningElement {
             .then(() => {
                 this.error = undefined;
                 this.removeRowFromTable();
+                this.removeRowFromDraft();
                 this.hideLoader();
                 this.showToast(true,false);//arguments (isSuccess, isSave)
                 //this.handleDoneLoading();
@@ -166,11 +168,23 @@ export default class RelatedContacts extends LightningElement {
         const index = findRowIndexById(Id, this.contacts);
         if (index !== -1) {
             if (index !== -1) {
-                this.contacts = this.contacts
-                    .slice(0, index)
-                    .concat(this.contacts.slice(index + 1));
+                this.contacts = this.contacts.slice(0, index).concat(this.contacts.slice(index + 1));
             }   
         }
+    }
+    
+    //removes row from draft
+    //this is necessary, because if a row is deleted before being inserted, it also has to be deleted form the draft
+    removeRowFromDraft(){
+        let tableDraftValues = this.template.querySelector('lightning-datatable').draftValues;
+        const { Id } = this.rowToDelete;
+        const index = findRowIndexById(Id, tableDraftValues);
+        if (index !== -1) {
+            if (index !== -1) {
+                tableDraftValues = tableDraftValues.slice(0, index).concat(tableDraftValues.slice(index + 1));
+            }   
+        }
+        this.template.querySelector('lightning-datatable').draftValues = tableDraftValues;
     }
 
     //Modal functions
