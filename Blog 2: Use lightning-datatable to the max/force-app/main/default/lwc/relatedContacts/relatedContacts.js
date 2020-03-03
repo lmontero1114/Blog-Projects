@@ -133,8 +133,10 @@ export default class RelatedContacts extends LightningElement {
     refreshData(){
         getContacts({accountId: this.recordId})
         .then(data => {
-            data[0].preTax = 11;
-            data[0].taxPaid = 10;
+            if(data && data.size > 0){
+                data[0].preTax = 11;
+                data[0].taxPaid = 10;
+            }
             this.contacts = data;
             this.hideLoader();
         })
