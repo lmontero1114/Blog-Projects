@@ -1,0 +1,39 @@
+<template>
+    <lightning-card>
+        <template if:true={contacts}>
+            <lightning-datatable
+            key-field="Id"
+            data={contacts}
+            columns={columns}
+            onsave={handleSave}
+            oncellchange={handleCellChange}
+            onrowaction={handleRowAction}
+            hide-checkbox-column="true"
+            errors={tableError}
+            is-loading={isLoading}>    
+            </lightning-datatable>
+        </template>
+        <template if:true={error}>
+            <c-error-panel errors={error} ></c-error-panel>
+        </template>
+    
+        <lightning-button label="Add new row" onclick={handleAddNewRow} ></lightning-button>
+        <c-modal header={deleteModalHeader}>
+            {deleteModalContent}
+            <div slot="footer">
+                <lightning-button 
+                    label="Cancel" 
+                    variant="neutral"
+                    onclick={handleCancelDelete}
+                    class="slds-p-around_xx-small"
+                ></lightning-button>
+                <lightning-button 
+                    label="Yes"
+                    variant="brand"
+                    onclick={handleYesDelete}
+                    class="slds-p-around_xx-small"
+                ></lightning-button>
+            </div>
+        </c-modal>
+    </lightning-card>
+</template>
