@@ -74,8 +74,7 @@ export default class RelatedContacts extends LightningElement {
     }
 
     handleCellChange(event){
-        //this.calculateTotalIncome(event.detail.draftValues[0]); //on cell change only returns one item in the array
-        this.updateContactsArrayWithDraftValues(event.detail.draftValues[0]);
+        this.calculateTotalIncome(event.detail.draftValues[0]);
     }
 
     handleAddNewRow(){
@@ -225,7 +224,7 @@ export default class RelatedContacts extends LightningElement {
     }
 
     //Iterate through contacts array to find the edited record, and update the total income field
-    updateContactsArrayWithDraftValues(draftValues){
+    calculateTotalIncome(draftValues){
         let recordId = draftValues.Id;
         this.contacts.forEach(row =>{
             if(row.Id !== recordId){
