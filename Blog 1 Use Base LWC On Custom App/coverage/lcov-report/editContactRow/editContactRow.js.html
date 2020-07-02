@@ -22,30 +22,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">32.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/40</span>
+                <span class='fraction'>13/40</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">41.67% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/12</span>
+                <span class='fraction'>5/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">27.78% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/18</span>
+                <span class='fraction'>5/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">28.95% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/38</span>
+                <span class='fraction'>11/38</span>
             </div>
         
             
@@ -181,6 +181,16 @@
 <a name='L123'></a><a href='#L123'>123</a>
 <a name='L124'></a><a href='#L124'>124</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -188,33 +198,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -304,7 +304,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { LightningElement, api, track } from 'lwc';
 &nbsp;
-<span class="cstat-no" title="statement not covered" >export default c</span>lass EditContactRow extends LightningElement <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >{</span></span>
+export default class EditContactRow extends LightningElement {
     @api accountId;
     @api index;
     @api contactId;    //record id for update form
@@ -312,32 +312,32 @@
     @track isReadOnly = true;
     @track totalIncome = 0;
     
-<span class="fstat-no" title="function not covered" >    connectedCallback(</span>){
-<span class="cstat-no" title="statement not covered" >        if(this.contactId === ''){</span>
+    connectedCallback(){
+        <span class="missing-if-branch" title="if path not taken" >I</span>if(this.contactId === ''){
 <span class="cstat-no" title="statement not covered" >            this.editMode();</span>
         } 
     }
  
     //returns the id sent by the API if the value exists, if not, 
     //it sends the value of the newly created record
-<span class="fstat-no" title="function not covered" >    get contactRecordId(){</span>
-<span class="cstat-no" title="statement not covered" >        return t</span>his.contactId ? this.contactId : this._contactId;
+    get contactRecordId(){
+        return this.contactId ? <span class="branch-0 cbranch-no" title="branch not covered" >this.contactId : this._contactId;</span>
     }
     
     //updates Total Income column when pre-tax income and Tax column changes
-<span class="fstat-no" title="function not covered" >    handleUpdateTotals(</span>){
-        let preTax = <span class="cstat-no" title="statement not covered" >this.getNumber("[data-field='PreTaxIncome']");</span>
-        let taxPaid = <span class="cstat-no" title="statement not covered" >this.getNumber("[data-field='TaxPaid']");</span>
-<span class="cstat-no" title="statement not covered" >        this.totalIncome = p</span>reTax + taxPaid;
+    handleUpdateTotals(){
+        let preTax = this.getNumber("[data-field='PreTaxIncome']");
+        let taxPaid = this.getNumber("[data-field='TaxPaid']");
+        this.totalIncome = preTax + taxPaid;
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    getNumber(</span>querySelectorStr){
-        let value = <span class="cstat-no" title="statement not covered" >this.template.querySelector(querySelectorStr).value;</span>
-<span class="cstat-no" title="statement not covered" >        if(!value) <span class="cstat-no" title="statement not covered" >return 0;</span></span>
+    getNumber(querySelectorStr){
+        let value = this.template.querySelector(querySelectorStr).value;
+        if(!value) return 0;
         
-        let decimal = <span class="cstat-no" title="statement not covered" >parseFloat(value);</span>
-<span class="cstat-no" title="statement not covered" >        if(decimal) </span>
-<span class="cstat-no" title="statement not covered" >            return decimal; </span>
+        let decimal = parseFloat(value);
+        <span class="missing-if-branch" title="else path not taken" >E</span>if(decimal) 
+            return decimal; 
 <span class="cstat-no" title="statement not covered" >        return 0;</span>
     }
     //end Total Income functions
@@ -432,7 +432,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Jul 01 2020 19:40:05 GMT-0400 (Eastern Daylight Time)
+                at Wed Jul 01 2020 21:35:09 GMT-0400 (Eastern Daylight Time)
             </div>
         </div>
         <script src="../prettify.js"></script>
