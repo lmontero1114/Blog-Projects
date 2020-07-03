@@ -93,7 +93,7 @@ describe("c-edit-contact-row", () => {
         });
     });
 
-    if("changes the row to edit mode", () => {
+    it("changes the row to edit mode", () => {
         const editButton = element.shadowRoot.querySelector(
             "[data-label='editButton']"
         );
@@ -110,17 +110,16 @@ describe("c-edit-contact-row", () => {
 
     });
 
-    if("changes the row to delete mode", () => {
+    it("changes the row to delete mode", () => {
+        // Mock handler for delete event
+        const deleteHandler = jest.fn();
+        element.addEventListener('delete', deleteHandler);
+
         const deleteButton = element.shadowRoot.querySelector(
             "[data-label='deleteButton']"
         );
         expect(deleteButton).not.toBeNull();
         deleteButton.click();
-        
-        // Mock handler for toast event
-        const deleteHandler = jest.fn();
-        // Add event listener to catch toast event
-        element.addEventListener('delete', deleteHandler);
 
         return Promise.resolve()
         .then(() => {
@@ -129,6 +128,86 @@ describe("c-edit-contact-row", () => {
 
         });
     });
+
+    it("checks when record is submitted it calls to load the page", () =>{
+
+        // Mock handler for loader event
+        const loadingHandler = jest.fn();
+        element.addEventListener('loading', loadingHandler);
+
+        const form = element.shadowRoot.querySelector(
+            'lightning-record-edit-form'
+        );
+        //mocks the submit function for lightning-record-edit-form
+        form.submit = jest.fn();
+        form.dispatchEvent(
+            new CustomEvent('submit', { detail: { fields: {} } })
+        );
+
+        return Promise.resolve()
+        .then(() => {
+            //make sure the loading event was fired when submitting the form
+            expect(loadingHandler).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    it("checks when form succeeds it calls to stop loading the page", () => {
+        const doneLoading = jest.fn();
+        element.addEventListener('doneloading', doneLoading);
+
+        //submit success event from the Form
+        const form = element.shadowRoot.querySelector('lightning-record-edit-form');
+        form.dispatchEvent(new CustomEvent('success', { detail: { id: {} } }));
+
+        return Promise.resolve().then(() => {
+            expect(doneLoading).toHaveBeenCalled();
+        });
+    });
+
+    it("checks when form errors out it calls to stop loading the page", () => {
+        const doneLoading = jest.fn();
+        element.addEventListener('doneloading', doneLoading);
+
+        //submit success event from the Form
+        const form = element.shadowRoot.querySelector('lightning-record-edit-form');
+        form.dispatchEvent(new CustomEvent('error'));
+
+        return Promise.resolve().then(() => {
+            expect(doneLoading).toHaveBeenCalled();
+        });
+    });
+
+    it("checks when form is cancelled the form goes back to read mode", () => {
+        //set edit mode
+        const editButton = element.shadowRoot.querySelector(
+            "[data-label='editButton']"
+        );
+        expect(editButton).not.toBeNull();
+        editButton.click();
+
+        return Promise.resolve()
+        .then(() => {
+            //populate tax paid field
+            const TAX_PAID = '10';
+            const taxPaid = element.shadowRoot.querySelector("[data-field='TaxPaid']");
+            expect(taxPaid).not.toBeNull();
+            taxPaid.value = TAX_PAID;
+
+            //click on cancel button
+            const cancelButton = element.shadowRoot.querySelector(
+                "[data-label='cancelButton']"
+            );
+            expect(cancelButton).not.toBeNull();
+            cancelButton.click();
+        }).then(() => {
+            const cancelButton = element.shadowRoot.querySelector(
+                "[data-label='cancelButton']"
+            );
+            expect(cancelButton).toBeNull();
+        });
+        
+    });
+
 
 });
 
