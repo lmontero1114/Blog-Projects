@@ -3,8 +3,7 @@ import getRelatedContacts from '@salesforce/apex/RelatedContactsDataService.getR
 import { deleteRecord } from 'lightning/uiRecordApi';
 
 
-export default class RelatedContacts extends LightningElement {
-    @api recordId;          //contains Account Id
+export default class RelatedContacts extends LightningElement {        
     @track isLoading;       //drived whether the Loading icon shows or not
     @track contacts = [];   //contains the list of contacts in the table
     @track error;           //if the error is filled out, it will display the error in the c-error-panel component
@@ -12,12 +11,27 @@ export default class RelatedContacts extends LightningElement {
     //properties used to store temporary information when deleting contacts
     recordIdToDelete;
     indexToDelete;
+    _recordId;              //contains Account Id
+    
+    
+    @api
+    get recordId() {
+        return this._recordId;
+    }
+    set recordId(value) {
+        this.setAttribute('recordId', value);
+        this._recordId = value;
+        this.getContacts();
+    }
     
     //populates the contacts related to the account
-    connectedCallback(){
+    getContacts(){
+        if (!this._recordId) {
+            return;
+        }
         //cannot be set to cacheable true, otherwise we cannot edit the 'contacts' 
         //property when we want to add new rows
-        getRelatedContacts({accountId: this.recordId})
+        getRelatedContacts({accountId: this._recordId})
             .then(data => {
                 this.error = undefined; 
                 this.contacts = data;
@@ -57,6 +71,7 @@ export default class RelatedContacts extends LightningElement {
     }
 
     handleHideModal() {
+        console.log('hiding modal');
         const modal = this.template.querySelector('c-modal');
         modal.hide();
     }

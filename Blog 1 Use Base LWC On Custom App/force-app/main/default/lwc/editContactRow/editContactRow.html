@@ -32,12 +32,12 @@
         <!-- Beginning of action column -->
         <lightning-layout-item size="2"  padding="around-small">
             <template if:true={isReadOnly}>
-                <lightning-button-icon icon-name="utility:edit" alternative-text="Edit" class="slds-m-left_xx-small" onclick={handleOnEdit}></lightning-button-icon>
-                <lightning-button-icon icon-name="utility:delete" alternative-text="Delete" class="slds-m-left_xx-small" onclick={handleOnDelete}></lightning-button-icon>
+                <lightning-button-icon icon-name="utility:edit" data-label="editButton" alternative-text="Edit" class="slds-m-left_xx-small" onclick={handleOnEdit}></lightning-button-icon>
+                <lightning-button-icon icon-name="utility:delete" data-label="deleteButton" alternative-text="Delete" class="slds-m-left_xx-small" onclick={handleOnDelete}></lightning-button-icon>
             </template>
             <template if:false={isReadOnly}>
-                <lightning-button type="submit" label="Save" class="slds-m-top_medium" ></lightning-button>
-                <lightning-button class="slds-m-top_small" label="Cancel" onclick={handleCancel}></lightning-button> 
+                <lightning-button type="submit" data-label="submitButton" label="Save" class="slds-m-top_medium" ></lightning-button>
+                <lightning-button class="slds-m-top_small" data-label="cancelButton" label="Cancel" onclick={handleCancel}></lightning-button> 
             </template>
         </lightning-layout-item> 
         <!-- End of action column -->

@@ -12,11 +12,11 @@
             "c/ldsUtils": [
                 "ldsUtils/ldsUtils.js"
             ],
-            "c/modal": [
-                "modal/modal.js"
-            ],
             "c/relatedContacts": [
                 "relatedContacts/relatedContacts.js"
+            ],
+            "c/modal": [
+                "modal/modal.js"
             ]
         }
     },
