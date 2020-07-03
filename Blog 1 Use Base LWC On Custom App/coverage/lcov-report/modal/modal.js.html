@@ -22,16 +22,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.33% </span>
+                <span class="strong">64.71% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/15</span>
+                <span class='fraction'>11/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
@@ -101,14 +101,14 @@
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">36x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -142,48 +142,48 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { LightningElement, api, track } from 'lwc';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { LightningElement, api, track } from "lwc";
 &nbsp;
-const CSS_CLASS = 'modal-hidden';
+const CSS_CLASS = "modal-hidden";
 &nbsp;
 export default class Modal extends LightningElement {
-    @track showModal = false;
-    @api
-    set header(value) {
-        this.hasHeaderString = value !== '';
-        this._headerPrivate = value;
-    }
-    get header() {
-        return this._headerPrivate;
-    }
+  @track showModal = false;
+  @api
+  set header(value) {
+    this.hasHeaderString = value !== "";
+    this._headerPrivate = value;
+  }
+  get header() {
+    return this._headerPrivate;
+  }
 &nbsp;
-    @track hasHeaderString = false;
-    _headerPrivate;
+  @track hasHeaderString = false;
+  _headerPrivate;
 &nbsp;
-    @api show() {
-        this.showModal = true;
-    }
+  @api show() {
+    this.showModal = true;
+  }
 &nbsp;
-    @api hide() {
-        this.showModal = false;
-    }
+  @api hide() {
+    this.showModal = false;
+  }
 &nbsp;
-    handleDialogClose() {
-        //Let parent know that dialog is closed (mainly by that cross button) so it can set proper variables if needed
-        const closedialog = new CustomEvent('closedialog');
-        this.dispatchEvent(closedialog);
-        this.hide();
-    }
+  handleDialogClose() {
+    //Let parent know that dialog is closed (mainly by that cross button) so it can set proper variables if needed
+    const closedialog = new CustomEvent("closedialog");
+    this.dispatchEvent(closedialog);
+    this.hide();
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    handleSlotTaglineChange(</span>) {
-        const taglineEl = <span class="cstat-no" title="statement not covered" >this.template.querySelector('p');</span>
-<span class="cstat-no" title="statement not covered" >        taglineEl.</span>classList.remove(CSS_CLASS);
-    }
+<span class="fstat-no" title="function not covered" >  handleSlotTaglineChange(</span>) {
+    const taglineEl = <span class="cstat-no" title="statement not covered" >this.template.querySelector("p");</span>
+<span class="cstat-no" title="statement not covered" >    if (taglineEl &amp;&amp; taglineEl.classList) <span class="cstat-no" title="statement not covered" >taglineEl.</span></span>classList.remove(CSS_CLASS);
+  }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    handleSlotFooterChange(</span>) {
-        const footerEl = <span class="cstat-no" title="statement not covered" >this.template.querySelector('footer');</span>
-<span class="cstat-no" title="statement not covered" >        footerEl.</span>classList.remove(CSS_CLASS);
-    }
+<span class="fstat-no" title="function not covered" >  handleSlotFooterChange(</span>) {
+    const footerEl = <span class="cstat-no" title="statement not covered" >this.template.querySelector("footer");</span>
+<span class="cstat-no" title="statement not covered" >    if (footerEl &amp;&amp; footerEl.classList) <span class="cstat-no" title="statement not covered" >footerEl.</span></span>classList.remove(CSS_CLASS);
+  }
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -192,7 +192,7 @@ export default class Modal extends LightningElement {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Jul 03 2020 15:11:16 GMT-0400 (Eastern Daylight Time)
+                at Fri Jul 03 2020 17:22:25 GMT-0400 (Eastern Daylight Time)
             </div>
         </div>
         <script src="../prettify.js"></script>
