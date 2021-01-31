@@ -17,7 +17,7 @@
       "sourceMaps": false,
       "internalConsoleOptions": "openOnSessionStart"
     },
-  
+
     {
       "name": "Launch Apex Replay Debugger",
       "type": "apex-replay",

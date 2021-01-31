@@ -1,46 +1,93 @@
 <template>
-    <lightning-record-edit-form record-id={contactRecordId}
-                                object-api-name="Contact"
-                                onsuccess={handleSuccess}
-                                onerror={handleError}  
-                                onsubmit={handleSubmit}
-                                onload={handleUpdateTotals}
-                                >   
+  <lightning-record-edit-form
+    record-id={contactRecordId}
+    object-api-name="Contact"
+    onsuccess={handleSuccess}
+    onerror={handleError}
+    onsubmit={handleSubmit}
+    onload={handleUpdateTotals}
+  >
     <lightning-messages></lightning-messages>
     <lightning-layout horizontal-align="space">
-        <!-- Beggining of displaying input fields -->
-        <lightning-layout-item size="2"  padding="around-small">
-            <lightning-input-field field-name="FirstName" disabled={isReadOnly} variant="label-hidden">
-            </lightning-input-field>
-        </lightning-layout-item>
-        <lightning-layout-item size="2"  padding="around-small">
-            <lightning-input-field field-name="LastName" disabled={isReadOnly} variant="label-hidden">
-            </lightning-input-field>
-        </lightning-layout-item> 
-        <lightning-layout-item size="2"  padding="around-small">
-            <lightning-input-field field-name="Pre_Tax_Income__c" data-field="PreTaxIncome" disabled={isReadOnly} variant="label-hidden" onchange={handleUpdateTotals}>
-            </lightning-input-field>
-        </lightning-layout-item>
-        <lightning-layout-item size="2"  padding="around-small">
-            <lightning-input-field field-name="Tax_Paid__c" data-field="TaxPaid" disabled={isReadOnly} variant="label-hidden" onchange={handleUpdateTotals}>
-            </lightning-input-field>
-        </lightning-layout-item>
-        <lightning-layout-item size="2"  padding="around-small">
-            <lightning-formatted-number value={totalIncome} format-style="currency" currency-code="USD"></lightning-formatted-number>
-        </lightning-layout-item>
-        <!-- End of displaying input fields -->
-        <!-- Beginning of action column -->
-        <lightning-layout-item size="2"  padding="around-small">
-            <template if:true={isReadOnly}>
-                <lightning-button-icon icon-name="utility:edit" data-label="editButton" alternative-text="Edit" class="slds-m-left_xx-small" onclick={handleOnEdit}></lightning-button-icon>
-                <lightning-button-icon icon-name="utility:delete" data-label="deleteButton" alternative-text="Delete" class="slds-m-left_xx-small" onclick={handleOnDelete}></lightning-button-icon>
-            </template>
-            <template if:false={isReadOnly}>
-                <lightning-button type="submit" data-label="submitButton" label="Save" class="slds-m-top_medium" ></lightning-button>
-                <lightning-button class="slds-m-top_small" data-label="cancelButton" label="Cancel" onclick={handleCancel}></lightning-button> 
-            </template>
-        </lightning-layout-item> 
-        <!-- End of action column -->
-    </lightning-layout> 
-    </lightning-record-edit-form>
+      <!-- Beggining of displaying input fields -->
+      <lightning-layout-item size="2" padding="around-small">
+        <lightning-input-field
+          field-name="FirstName"
+          disabled={isReadOnly}
+          variant="label-hidden"
+        >
+        </lightning-input-field>
+      </lightning-layout-item>
+      <lightning-layout-item size="2" padding="around-small">
+        <lightning-input-field
+          field-name="LastName"
+          disabled={isReadOnly}
+          variant="label-hidden"
+        >
+        </lightning-input-field>
+      </lightning-layout-item>
+      <lightning-layout-item size="2" padding="around-small">
+        <lightning-input-field
+          field-name="Pre_Tax_Income__c"
+          data-field="PreTaxIncome"
+          disabled={isReadOnly}
+          variant="label-hidden"
+          onchange={handleUpdateTotals}
+        >
+        </lightning-input-field>
+      </lightning-layout-item>
+      <lightning-layout-item size="2" padding="around-small">
+        <lightning-input-field
+          field-name="Tax_Paid__c"
+          data-field="TaxPaid"
+          disabled={isReadOnly}
+          variant="label-hidden"
+          onchange={handleUpdateTotals}
+        >
+        </lightning-input-field>
+      </lightning-layout-item>
+      <lightning-layout-item size="2" padding="around-small">
+        <lightning-formatted-number
+          value={totalIncome}
+          format-style="currency"
+          currency-code="USD"
+        ></lightning-formatted-number>
+      </lightning-layout-item>
+      <!-- End of displaying input fields -->
+      <!-- Beginning of action column -->
+      <lightning-layout-item size="2" padding="around-small">
+        <template if:true={isReadOnly}>
+          <lightning-button-icon
+            icon-name="utility:edit"
+            data-label="editButton"
+            alternative-text="Edit"
+            class="slds-m-left_xx-small"
+            onclick={handleOnEdit}
+          ></lightning-button-icon>
+          <lightning-button-icon
+            icon-name="utility:delete"
+            data-label="deleteButton"
+            alternative-text="Delete"
+            class="slds-m-left_xx-small"
+            onclick={handleOnDelete}
+          ></lightning-button-icon>
+        </template>
+        <template if:false={isReadOnly}>
+          <lightning-button
+            type="submit"
+            data-label="submitButton"
+            label="Save"
+            class="slds-m-top_medium"
+          ></lightning-button>
+          <lightning-button
+            class="slds-m-top_small"
+            data-label="cancelButton"
+            label="Cancel"
+            onclick={handleCancel}
+          ></lightning-button>
+        </template>
+      </lightning-layout-item>
+      <!-- End of action column -->
+    </lightning-layout>
+  </lightning-record-edit-form>
 </template>
