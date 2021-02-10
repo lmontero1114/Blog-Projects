@@ -157,21 +157,44 @@ describe("c-related-contacts", () => {
       .then(() => {
         const rows = element.shadowRoot.querySelectorAll("c-edit-contact-row");
         expect(rows.length).toBe(1);
-        //verify approve delete buttons don't exist because the modal is closed
-
-        expect(element.shadowRoot.querySelector('[data-id="buttonToApproveDelete"]').length).toBe(undefined);
-
+        
         rows[0].dispatchEvent(new CustomEvent("delete", {detail:{Id:APEX_PARAMETERS[0]}}));
       })
       .then(() => {
-        
-        //expect(element.shadowRoot.querySelector('[data-id="buttonToApproveDelete"]').length).toBe(1);
-        //expect(JSON.stringify(element.shadowRoot)).toBe(true);
-        //https://www.jamessimone.net/blog/joys-of-apex/lwc-modal-cleanup-and-testing/
+        expect(element.shadowRoot.querySelectorAll('[data-id="buttonToApproveDelete"]').length).toBe(1);
+        element.shadowRoot.querySelectorAll('[data-id="buttonToApproveDelete"]')[0].click();
+      })
+      .then(() => {
+        const rows = element.shadowRoot.querySelectorAll("c-edit-contact-row");
+        expect(rows.length).toBe(0);
       });
   });
 
+  it("checks cancel delete button works as expected", () => {
+    const APEX_PARAMETERS = { accountId: ACCOUNT_ID };
 
+    getRelatedContacts.mockResolvedValue(APEX_CONTACT_SUCCESS_1);
+
+    element.recordId = ACCOUNT_ID;
+    return Promise.resolve()
+      .then(() => {
+        expect(getRelatedContacts.mock.calls[0][0]).toEqual(APEX_PARAMETERS);
+      })
+      .then(() => {
+        const rows = element.shadowRoot.querySelectorAll("c-edit-contact-row");
+        expect(rows.length).toBe(1);
+        
+        rows[0].dispatchEvent(new CustomEvent("delete", {detail:{Id:APEX_PARAMETERS[0]}}));
+      })
+      .then(() => {
+        expect(element.shadowRoot.querySelectorAll('[data-id="buttonToCancelDelete"]').length).toBe(1);
+        element.shadowRoot.querySelectorAll('[data-id="buttonToCancelDelete"]')[0].click();
+      })
+      .then(() => {
+        const rows = element.shadowRoot.querySelectorAll("c-edit-contact-row");
+        expect(rows.length).toBe(1);
+      });
+  });
 
 
 });
