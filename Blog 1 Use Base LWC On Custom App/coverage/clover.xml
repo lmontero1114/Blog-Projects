@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1612926219585" clover="3.2.0">
-  <project timestamp="1612926219586" name="All files">
-    <metrics statements="110" coveredstatements="100" conditionals="34" coveredconditionals="26" methods="56" coveredmethods="52" elements="200" coveredelements="178" complexity="0" loc="110" ncloc="110" packages="5" files="5" classes="5"/>
+<coverage generated="1612927076569" clover="3.2.0">
+  <project timestamp="1612927076569" name="All files">
+    <metrics statements="110" coveredstatements="103" conditionals="34" coveredconditionals="26" methods="56" coveredmethods="53" elements="200" coveredelements="182" complexity="0" loc="110" ncloc="110" packages="5" files="5" classes="5"/>
     <package name="editContactRow">
       <metrics statements="37" coveredstatements="36" conditionals="12" coveredconditionals="10" methods="18" coveredmethods="18"/>
       <file name="editContactRow.js" path="/Users/lulymontero/Documents/GitHub/Blog-Projects/Blog 1 Use Base LWC On Custom App/force-app/main/default/lwc/editContactRow/editContactRow.js">
         <metrics statements="37" coveredstatements="36" conditionals="12" coveredconditionals="10" methods="18" coveredmethods="18"/>
-        <line num="3" count="105" type="stmt"/>
-        <line num="12" count="15" type="cond" truecount="2" falsecount="0"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="20" count="24" type="cond" truecount="2" falsecount="0"/>
+        <line num="3" count="112" type="stmt"/>
+        <line num="12" count="16" type="cond" truecount="2" falsecount="0"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="20" count="25" type="cond" truecount="2" falsecount="0"/>
         <line num="25" count="4" type="stmt"/>
         <line num="26" count="4" type="stmt"/>
         <line num="27" count="4" type="stmt"/>
@@ -42,7 +42,7 @@
         <line num="103" count="2" type="stmt"/>
         <line num="107" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="113" count="5" type="stmt"/>
-        <line num="117" count="3" type="stmt"/>
+        <line num="117" count="4" type="stmt"/>
       </file>
     </package>
     <package name="errorPanel">
@@ -79,9 +79,9 @@
       <file name="modal.js" path="/Users/lulymontero/Documents/GitHub/Blog-Projects/Blog 1 Use Base LWC On Custom App/force-app/main/default/lwc/modal/modal.js">
         <metrics statements="14" coveredstatements="12" conditionals="8" coveredconditionals="4" methods="8" coveredmethods="7"/>
         <line num="3" count="2" type="stmt"/>
-        <line num="5" count="48" type="stmt"/>
-        <line num="9" count="8" type="stmt"/>
-        <line num="10" count="8" type="stmt"/>
+        <line num="5" count="52" type="stmt"/>
+        <line num="9" count="9" type="stmt"/>
+        <line num="10" count="9" type="stmt"/>
         <line num="13" count="3" type="stmt"/>
         <line num="20" count="6" type="stmt"/>
         <line num="24" count="5" type="stmt"/>
@@ -95,34 +95,34 @@
       </file>
     </package>
     <package name="relatedContacts">
-      <metrics statements="42" coveredstatements="37" conditionals="4" coveredconditionals="4" methods="21" coveredmethods="19"/>
+      <metrics statements="42" coveredstatements="40" conditionals="4" coveredconditionals="4" methods="21" coveredmethods="20"/>
       <file name="relatedContacts.js" path="/Users/lulymontero/Documents/GitHub/Blog-Projects/Blog 1 Use Base LWC On Custom App/force-app/main/default/lwc/relatedContacts/relatedContacts.js">
-        <metrics statements="42" coveredstatements="37" conditionals="4" coveredconditionals="4" methods="21" coveredmethods="19"/>
+        <metrics statements="42" coveredstatements="40" conditionals="4" coveredconditionals="4" methods="21" coveredmethods="20"/>
         <line num="3" count="1" type="stmt"/>
-        <line num="5" count="49" type="stmt"/>
-        <line num="17" count="7" type="stmt"/>
-        <line num="20" count="7" type="stmt"/>
-        <line num="21" count="7" type="stmt"/>
-        <line num="22" count="7" type="stmt"/>
-        <line num="27" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="5" count="56" type="stmt"/>
+        <line num="17" count="8" type="stmt"/>
+        <line num="20" count="8" type="stmt"/>
+        <line num="21" count="8" type="stmt"/>
+        <line num="22" count="8" type="stmt"/>
+        <line num="27" count="8" type="cond" truecount="2" falsecount="0"/>
         <line num="28" count="1" type="stmt"/>
-        <line num="32" count="6" type="stmt"/>
-        <line num="34" count="5" type="stmt"/>
-        <line num="35" count="5" type="stmt"/>
+        <line num="32" count="7" type="stmt"/>
+        <line num="34" count="6" type="stmt"/>
+        <line num="35" count="6" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
         <line num="39" count="1" type="stmt"/>
         <line num="45" count="2" type="stmt"/>
         <line num="48" count="2" type="stmt"/>
-        <line num="55" count="1" type="stmt"/>
-        <line num="60" count="16" type="stmt"/>
-        <line num="64" count="16" type="stmt"/>
+        <line num="55" count="2" type="stmt"/>
+        <line num="60" count="18" type="stmt"/>
+        <line num="64" count="18" type="stmt"/>
         <line num="67" count="2" type="stmt"/>
         <line num="68" count="2" type="stmt"/>
         <line num="72" count="3" type="stmt"/>
         <line num="73" count="3" type="stmt"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="80" count="0" type="stmt"/>
-        <line num="81" count="0" type="stmt"/>
+        <line num="79" count="1" type="stmt"/>
+        <line num="80" count="1" type="stmt"/>
+        <line num="81" count="1" type="stmt"/>
         <line num="86" count="2" type="stmt"/>
         <line num="87" count="2" type="stmt"/>
         <line num="88" count="2" type="stmt"/>

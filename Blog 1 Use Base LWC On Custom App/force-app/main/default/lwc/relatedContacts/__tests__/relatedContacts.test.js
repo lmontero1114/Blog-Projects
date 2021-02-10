@@ -125,7 +125,7 @@ describe("c-related-contacts", () => {
     });
   });
 
-  it("checks Add New Contact button works", () =>{
+  it("checks Add New Contact button works, and deletion without insertion", () =>{
     const APEX_PARAMETERS = { accountId: ACCOUNT_ID };
     getRelatedContacts.mockResolvedValue(APEX_CONTACT_SUCCESS_0);
 
@@ -138,11 +138,6 @@ describe("c-related-contacts", () => {
         element.shadowRoot.querySelector('[data-id="addNewContactButton"]').click();
         
       })
-      // .then(() => {
-      //   const rowsAfter = element.shadowRoot.querySelectorAll("c-edit-contact-row");
-      //   expect(rowsAfter.length).toBe(1);
-      //   rowsAfter[0].dispatchEvent(new CustomEvent("success", {detail: { Id: '0001', index: 1 }}));
-      // })
       .then(() => {
         const rowsAfter = element.shadowRoot.querySelectorAll("c-edit-contact-row");
         expect(rowsAfter.length).toBe(1);
@@ -194,35 +189,24 @@ describe("c-related-contacts", () => {
       });
   });
 
-  //   it("checks delete button and cancel works as expected when creating new contact", () => {
-  //     const APEX_PARAMETERS = { accountId: ACCOUNT_ID };
-  //     getRelatedContacts.mockResolvedValue(APEX_CONTACT_SUCCESS_0);
-  
-  //     element.recordId = ACCOUNT_ID;
-  //     return Promise.resolve()
-  //       .then(() => {
-  //         const rowsBefore = element.shadowRoot.querySelectorAll("c-edit-contact-row");
-  //         expect(rowsBefore.length).toBe(0);
-  
-  //         element.shadowRoot.querySelector('[data-id="addNewContactButton"]').click();
-          
-  //       })
-  //     .then(() => {
-  //       const rowsAfter = element.shadowRoot.querySelectorAll("c-edit-contact-row");
-  //       expect(rowsAfter.length).toBe(1);
-  //       rowsAfter[0].dispatchEvent(new CustomEvent("delete", {detail: { Id: '' }}));
-  //     })
-  //     .then(() => {
-  //       expect(element.shadowRoot.querySelectorAll('[data-id="buttonToApproveDelete"]').length).toBe(1);
-  //       element.shadowRoot.querySelectorAll('[data-id="buttonToApproveDelete"]')[0].click();
-  //     })
-  //     .then(() => {})
-  //     .then(() => {
-  //       const rows = element.shadowRoot.querySelectorAll("c-edit-contact-row");
-  //       expect(rows.length).toBe(0);
-  //     });
-      
-  // });
+  it("checks Add New Contact button works, insert and deletion", () =>{
+    const APEX_PARAMETERS = { accountId: ACCOUNT_ID };
+    getRelatedContacts.mockResolvedValue(APEX_CONTACT_SUCCESS_0);
 
+    element.recordId = ACCOUNT_ID;
+    return Promise.resolve()
+      .then(() => {
+        const rowsBefore = element.shadowRoot.querySelectorAll("c-edit-contact-row");
+        expect(rowsBefore.length).toBe(0);
+
+        element.shadowRoot.querySelector('[data-id="addNewContactButton"]').click();
+        
+      })
+      .then(() => {
+        const rowsAfter = element.shadowRoot.querySelectorAll("c-edit-contact-row");
+        expect(rowsAfter.length).toBe(1);
+        rowsAfter[0].dispatchEvent(new CustomEvent("success", {detail: { Id: '0001', index: 1 }}));
+      })
+  })
 
 });
