@@ -69,7 +69,6 @@ export default class RelatedContacts extends LightningElement {
   }
 
   handleHideModal() {
-    console.log("hiding modal");
     const modal = this.template.querySelector("c-modal");
     modal.hide();
   }

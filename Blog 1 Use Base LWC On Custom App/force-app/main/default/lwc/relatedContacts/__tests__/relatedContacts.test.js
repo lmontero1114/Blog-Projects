@@ -48,6 +48,22 @@ describe("c-related-contacts", () => {
     document.body.appendChild(element);
   });
 
+  it("checks error when there is no account id", () => {
+    const APEX_PARAMETERS = { accountId: '' };
+
+    getRelatedContacts.mockResolvedValue(APEX_CONTACT_SUCCESS_0);
+
+    element.recordId = null;
+    return Promise.resolve()
+      .then(() => {
+        //this function never gets called because recordId is null
+        expect(getRelatedContacts.mock.calls.length).toEqual(0);
+      })
+      .then(() => {
+        const rows = element.shadowRoot.querySelectorAll("c-edit-contact-row");
+        expect(rows.length).toBe(0);
+      });
+  });
   it("checks successful query of contacts when returning 0", () => {
     const APEX_PARAMETERS = { accountId: ACCOUNT_ID };
 
@@ -108,4 +124,54 @@ describe("c-related-contacts", () => {
       expect(error_panel.length).toEqual(1);
     });
   });
+
+  it("checks Add New Contact button works", () =>{
+    const APEX_PARAMETERS = { accountId: ACCOUNT_ID };
+    getRelatedContacts.mockResolvedValue(APEX_CONTACT_SUCCESS_0);
+
+    element.recordId = ACCOUNT_ID;
+    return Promise.resolve()
+      .then(() => {
+        const rowsBefore = element.shadowRoot.querySelectorAll("c-edit-contact-row");
+        expect(rowsBefore.length).toBe(0);
+
+        element.shadowRoot.querySelector('[data-id="addNewContactButton"]').click();
+        
+      })
+      .then(() => {
+        const rowsAfter = element.shadowRoot.querySelectorAll("c-edit-contact-row");
+        expect(rowsAfter.length).toBe(1);
+      });
+  })
+
+  it("checks delete button works as expected", () => {
+    const APEX_PARAMETERS = { accountId: ACCOUNT_ID };
+
+    getRelatedContacts.mockResolvedValue(APEX_CONTACT_SUCCESS_1);
+
+    element.recordId = ACCOUNT_ID;
+    return Promise.resolve()
+      .then(() => {
+        expect(getRelatedContacts.mock.calls[0][0]).toEqual(APEX_PARAMETERS);
+      })
+      .then(() => {
+        const rows = element.shadowRoot.querySelectorAll("c-edit-contact-row");
+        expect(rows.length).toBe(1);
+        //verify approve delete buttons don't exist because the modal is closed
+
+        expect(element.shadowRoot.querySelector('[data-id="buttonToApproveDelete"]').length).toBe(undefined);
+
+        rows[0].dispatchEvent(new CustomEvent("delete", {detail:{Id:APEX_PARAMETERS[0]}}));
+      })
+      .then(() => {
+        
+        //expect(element.shadowRoot.querySelector('[data-id="buttonToApproveDelete"]').length).toBe(1);
+        //expect(JSON.stringify(element.shadowRoot)).toBe(true);
+        //https://www.jamessimone.net/blog/joys-of-apex/lwc-modal-cleanup-and-testing/
+      });
+  });
+
+
+
+
 });

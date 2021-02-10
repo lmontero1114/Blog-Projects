@@ -47,6 +47,7 @@
       </template>
       <!-- End iterating through rows of contacts -->
       <lightning-button
+        data-id="addNewContactButton"
         label="Add New Contact"
         onclick={handleAddNewContact}
       ></lightning-button>
@@ -65,12 +66,14 @@
       {deleteModalContent}
       <div slot="footer">
         <lightning-button
+          data-id="buttonToCancelDelete"
           label="Cancel"
           variant="neutral"
           onclick={handleCancelDelete}
           class="slds-p-around_xx-small"
         ></lightning-button>
         <lightning-button
+          data-id="buttonToApproveDelete"
           label="Yes"
           variant="brand"
           onclick={handleYesDelete}
